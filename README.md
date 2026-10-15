@@ -57,15 +57,11 @@ I cataloghi contengono 14 famiglie e 157 diametri, estratti dal workbook di rife
 
 ## GitHub Pages
 
-Il progetto è pronto per essere caricato in un repository GitHub, per esempio `TLR`. Non richiede servizi esterni, variabili segrete o processi di compilazione.
+Sito: [dbosch99.github.io/TLR](https://dbosch99.github.io/TLR/). Repository: [dbosch99/TLR](https://github.com/dbosch99/TLR).
 
-1. Caricare il contenuto di questa cartella nel repository, mantenendo `index.html` nella radice.
-2. Nel repository aprire **Settings > Pages**.
-3. In **Build and deployment**, scegliere **Deploy from a branch**.
-4. Selezionare il branch `main` e la cartella **/ (root)**, quindi salvare.
-5. Attendere il completamento della pubblicazione. Se il repository si chiama `TLR`, l'indirizzo previsto è `https://dbosch99.github.io/TLR/`.
+GitHub Pages pubblica il branch `main`, cartella **/ (root)**, senza compilazione. Dopo aver salvato le modifiche locali, eseguire commit e push su `main`: GitHub aggiorna il sito al termine della pubblicazione, che può richiedere qualche minuto.
 
-Tutti i percorsi delle risorse sono relativi e funzionano anche sotto `/TLR/`. Il file `.nojekyll` evita l'elaborazione Jekyll. Il progetto locale non contiene credenziali e non viene pubblicato automaticamente.
+Tutti i percorsi delle risorse sono relativi e funzionano anche sotto `/TLR/`. Il file `.nojekyll` evita l'elaborazione Jekyll. Non servono servizi esterni o variabili segrete. Le modifiche locali diventano pubbliche soltanto dopo il push; i progetti inseriti dagli utenti restano nel loro browser.
 
 Riferimento: [creare un sito GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site).
 
