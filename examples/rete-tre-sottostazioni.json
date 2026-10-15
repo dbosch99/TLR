@@ -1,0 +1,108 @@
+{
+  "app": "tlr-dimensionamento",
+  "version": 1,
+  "name": "Rete di esempio · 3 sottostazioni",
+  "settings": {
+    "generatorKW": 350,
+    "supplyC": 85,
+    "deltaC": 20,
+    "lengthFactor": 1.1,
+    "limits": {
+      "buried": 10,
+      "plant": 30,
+      "floor": 20
+    },
+    "ambient": {
+      "buried": 10,
+      "plant": 20,
+      "floor": 20
+    }
+  },
+  "edges": [
+    {
+      "id": "0d6f00b4-2292-4718-8e17-4d3a47d0d4ba",
+      "from": "C.C.",
+      "to": "B.C.",
+      "lengthM": 10,
+      "area": "plant",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "3881d736-0994-4666-9ae9-df449fd1b29e",
+      "from": "B.C.",
+      "to": "S1",
+      "lengthM": 411.7401,
+      "area": "buried",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "abb531e7-eded-455c-bd3d-4aac944a76c6",
+      "from": "S1",
+      "to": "S1T",
+      "lengthM": 7.5,
+      "area": "plant",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "d7ed4c14-df32-4c46-bf71-3e72118d71fa",
+      "from": "B.C.",
+      "to": "N1",
+      "lengthM": 439.1017,
+      "area": "buried",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "0b252555-2bd9-477c-b596-9d712f564c53",
+      "from": "N1",
+      "to": "S2",
+      "lengthM": 47.4734,
+      "area": "buried",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "a259331f-2299-43e3-9e97-ca4e290eb707",
+      "from": "S2",
+      "to": "S2T",
+      "lengthM": 7.5,
+      "area": "plant",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "6a69ffc4-cdde-4d9d-b79c-7a2d28ff8a19",
+      "from": "N1",
+      "to": "S3",
+      "lengthM": 404.4316,
+      "area": "buried",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "bb7ca4e7-ae35-421f-96dd-293bc3ac0bab",
+      "from": "S3",
+      "to": "S3T",
+      "lengthM": 7.5,
+      "area": "plant",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    }
+  ],
+  "demands": {
+    "S1": 47,
+    "S2": 22.3576893982743,
+    "S3": 140.202438403418
+  }
+}

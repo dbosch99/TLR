@@ -1,0 +1,7 @@
+{
+  "name": "tlr", "version": "1.0.0", "private": true, "type": "module",
+  "description": "Dimensionamento di reti termiche ramificate e stima delle dispersioni.",
+  "author": "Davide Boschetti",
+  "scripts": {"dev": "node scripts/serve.mjs", "test": "node --test tests/*.test.js"},
+  "engines": {"node": ">=20"}
+}

@@ -1,0 +1,139 @@
+{
+  "app": "tlr-dimensionamento",
+  "version": 1,
+  "name": "Prova TLR 4 sottostazioni",
+  "settings": {
+    "generatorKW": 350,
+    "supplyC": 85,
+    "deltaC": 20,
+    "lengthFactor": 1.1,
+    "limits": {
+      "buried": 10,
+      "plant": 30,
+      "floor": 20
+    },
+    "ambient": {
+      "buried": 10,
+      "plant": 20,
+      "floor": 20
+    }
+  },
+  "edges": [
+    {
+      "id": "194b831c-cae3-4ce2-b2f0-29b8d35e48d1",
+      "from": "C.C.",
+      "to": "B.C.",
+      "lengthM": 10,
+      "area": "plant",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "523e8dd1-03d8-4aef-b7ec-30c014aa8515",
+      "from": "B.C.",
+      "to": "S1",
+      "lengthM": 411.7401,
+      "area": "buried",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "1f01340f-a4bf-47e5-b411-ca04a03d701c",
+      "from": "S1",
+      "to": "S1T",
+      "lengthM": 7.5,
+      "area": "plant",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "84965603-6301-4e6d-8e96-5f51131967e3",
+      "from": "B.C.",
+      "to": "N1",
+      "lengthM": 439.1017,
+      "area": "buried",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "2835546c-330a-4bf1-8d18-0606015851a6",
+      "from": "N1",
+      "to": "S2",
+      "lengthM": 47.4734,
+      "area": "buried",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "1ba6f1bc-e1e0-4455-9178-3762dca6a352",
+      "from": "S2",
+      "to": "S2T",
+      "lengthM": 7.5,
+      "area": "plant",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "c22a80ae-52bc-4edd-8491-42e4e85753bf",
+      "from": "N1",
+      "to": "S3",
+      "lengthM": 404.4316,
+      "area": "buried",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "d12038a3-1a8d-472f-aaca-88a26e67685e",
+      "from": "S3",
+      "to": "S3T",
+      "lengthM": 7.5,
+      "area": "plant",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "a5f7fb08-b958-446b-bf31-420ee4f1536f",
+      "from": "N1",
+      "to": "N2",
+      "lengthM": 30,
+      "area": "buried",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "a63e30ea-a4b5-4f2a-b325-bc9e43a37a35",
+      "from": "N2",
+      "to": "S4",
+      "lengthM": 20,
+      "area": "buried",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    },
+    {
+      "id": "e9a00b70-7639-4867-b747-c95fdd085d6e",
+      "from": "S4",
+      "to": "S4T",
+      "lengthM": 7.5,
+      "area": "plant",
+      "familyId": null,
+      "limitMmM": null,
+      "ambientC": null
+    }
+  ],
+  "demands": {
+    "S1": 47,
+    "S2": 22.3576893982743,
+    "S3": 140.202438403418,
+    "S4": 30
+  }
+}
