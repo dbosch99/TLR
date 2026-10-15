@@ -78,14 +78,14 @@ I coefficienti U lineari di Supporto tubi!H sono in W/(m K), già riferiti all'u
 ```text
 q_mandata = U × (T_mandata − T_ambiente) [W/m]
 q_ritorno = U × (T_ritorno − T_ambiente) [W/m]
-Q_mandata = q_mandata × L_reale / 1.000 [kW]
-Q_ritorno = q_ritorno × L_reale / 1.000 [kW]
+Q_mandata = q_mandata × L_eff / 1.000 [kW]
+Q_ritorno = q_ritorno × L_eff / 1.000 [kW]
 Q_rete = somma di tutte le Q_mandata e Q_ritorno [kW]
 ```
 
 La temperatura ambiente è inizialmente 10 °C per l'interrato e 20 °C per centrale e pavimento, modificabile per ambito o per tratta. I coefficienti dei materiali generici si riferiscono all'isolamento già previsto nel workbook. Per un impianto a pavimento il risultato è lo scambio termico lineare del modello di tubo selezionato, non una verifica della resa di un sistema radiante completo.
 
-La stima usa le lunghezze reali, non la maggiorazione idraulica. Questo è una semplificazione esplicita rispetto al foglio Excel che trasferisce alle perdite termiche le lunghezze idrauliche maggiorate anche di altri contributi.
+La stima usa L_eff = L_reale × fattore lunghezza, come il calcolo delle perdite idrauliche distribuite. Il fattore si applica una sola volta nel passaggio da W/m a kW, sia in mandata sia in ritorno. Con fattore 1,10 le dispersioni sono maggiorate del 10%; i valori in W/m restano invariati. Il modello non aggiunge altri contributi di lunghezza oltre al fattore globale.
 
 Si assumono temperature costanti lungo ciascuna tratta e lo stesso tubo per mandata e ritorno. Non si considerano raffreddamento progressivo, interazione tra i due tubi o variazione di U con le condizioni di posa. Un valore negativo indica un apporto termico dall'ambiente.
 
@@ -100,7 +100,7 @@ Una tratta a potenza nulla è esclusa dalla preselezione e dalla stima termica. 
 
 ## Confronto con il workbook
 
-Il sito riprende dati e criteri del workbook, con queste differenze dichiarate: assenza del biodigestore e del glicole, fabbisogni al 100%, proprietà dell'acqua interpolate, c_p alla temperatura media, coefficienti standard 3,7 e 2,51 di Colebrook, verifica di entrambi i percorsi, lunghezza idraulica maggiorata soltanto dal fattore globale e lunghezza termica reale. Non è prevista l'identità numerica con tutte le formule del workbook.
+Il sito riprende dati e criteri del workbook, con queste differenze dichiarate: assenza del biodigestore e del glicole, fabbisogni al 100%, proprietà dell'acqua interpolate, c_p alla temperatura media, coefficienti standard 3,7 e 2,51 di Colebrook, verifica di entrambi i percorsi, lunghezze idraulica e termica maggiorate soltanto dal fattore globale. Non è prevista l'identità numerica con tutte le formule del workbook.
 
 ## Fonti
 

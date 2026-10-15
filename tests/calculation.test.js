@@ -33,14 +33,26 @@ test('Ogni diametro scelto è il minimo ammissibile sia in mandata sia in ritorn
   if(index>0){const smaller=e.family.sizes[index-1];const losses=[r.supplyC,r.returnC].map(t=>pipeHydraulics(e.massKgS,smaller.innerMm,e.family.roughnessMm,t).gradientMmM);assert.ok(Math.max(...losses)>=e.limit);}
  }
 });
-test('Lunghezza maggiorata: modifica ΔH, non il DN né le dispersioni',()=>{
- const p=exampleProject(),a=calculate(p);p.settings.lengthFactor=1.3;const b=calculate(p);
- for(let i=0;i<a.rows.length;i++){assert.equal(a.rows[i].chosen.size.dn,b.rows[i].chosen.size.dn);near(b.rows[i].pressureSupplyM,a.rows[i].pressureSupplyM*1.3/1.1);near(a.rows[i].thermal.totalKW,b.rows[i].thermal.totalKW);}
+test('Fattore lunghezza: scala ΔH e dispersioni M+R e aggiorna il margine, senza cambiare DN o W/m',()=>{
+ const p=exampleProject();p.settings.lengthFactor=1;const a=calculate(p);
+ for(const factor of [1.1,1.3]){
+  p.settings.lengthFactor=factor;const b=calculate(p);
+  for(let i=0;i<a.rows.length;i++){
+   assert.equal(a.rows[i].chosen.size.dn,b.rows[i].chosen.size.dn);
+   near(b.rows[i].effectiveLengthM,a.rows[i].lengthM*factor);
+   for(const key of ['pressureSupplyM','pressureReturnM'])near(b.rows[i][key],a.rows[i][key]*factor);
+   for(const key of ['supplyWM','returnWM'])near(b.rows[i].thermal[key],a.rows[i].thermal[key]);
+   for(const key of ['supplyKW','returnKW','totalKW'])near(b.rows[i].thermal[key],a.rows[i].thermal[key]*factor);
+  }
+  near(b.thermalKW,a.thermalKW*factor);
+  near(b.demandWithLossKW,a.net.demandKW+a.thermalKW*factor);
+  near(b.marginKW,a.marginKW-a.thermalKW*(factor-1));
+ }
 });
 test('Dispersioni: controllo manuale indipendente e somma M+R',()=>{
  const h=heatLoss(0.2,100,80,60,10);near(h.supplyWM,14);near(h.returnWM,10);near(h.totalKW,2.4);
  const p=exampleProject(),r=calculate(p);let total=0;
- for(const e of r.rows){const expected=e.chosen.size.uWmK*e.lengthM*(r.supplyC+r.returnC-2*e.ambientC)/1000;near(e.thermal.totalKW,expected);total+=expected;}
+ for(const e of r.rows){const expected=e.chosen.size.uWmK*e.lengthM*p.settings.lengthFactor*(r.supplyC+r.returnC-2*e.ambientC)/1000;near(e.thermal.totalKW,expected);total+=expected;}
  near(r.thermalKW,total);near(r.marginKW,p.settings.generatorKW-r.net.demandKW-total);
 });
 test('Cambio isolamento: dispersioni aggiornate, stesso diametro a parità di sezione interna',()=>{

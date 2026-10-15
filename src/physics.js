@@ -63,8 +63,9 @@ export function calculate(project) {
     if (chosen && Math.max(chosen.supply.velocityMS, chosen.ret.velocityMS) > 2) warnings.push(`${e.from}-${e.to}: velocità superiore a 2 m/s. Il criterio di scelta applicato è la sola perdita unitaria.`);
     const transition = chosen && [chosen.supply,chosen.ret].some(p => p.reynolds > 2000 && p.reynolds < 4000);
     if (transition) warnings.push(`${e.from}-${e.to}: regime di transizione; fattore d'attrito interpolato tra Re = 2.000 e Re = 4.000.`);
-    const thermal = chosen ? heatLoss(chosen.size.uWmK, e.lengthM, supplyC, returnC, ambientC) : null;
-    return { ...e, family, limit, ambientC, served, powerKW, massKgS, chosen, thermal, effectiveLengthM: e.lengthM * s.lengthFactor, pressureSupplyM: chosen ? chosen.supply.gradientMmM / 1000 * e.lengthM * s.lengthFactor : null, pressureReturnM: chosen ? chosen.ret.gradientMmM / 1000 * e.lengthM * s.lengthFactor : null, status: !criterionValid ? 'unavailable' : powerKW === 0 ? 'inactive' : chosen ? 'ok' : 'unavailable' };
+    const effectiveLengthM = e.lengthM * s.lengthFactor;
+    const thermal = chosen ? heatLoss(chosen.size.uWmK, effectiveLengthM, supplyC, returnC, ambientC) : null;
+    return { ...e, family, limit, ambientC, served, powerKW, massKgS, chosen, thermal, effectiveLengthM, pressureSupplyM: chosen ? chosen.supply.gradientMmM / 1000 * effectiveLengthM : null, pressureReturnM: chosen ? chosen.ret.gradientMmM / 1000 * effectiveLengthM : null, status: !criterionValid ? 'unavailable' : powerKW === 0 ? 'inactive' : chosen ? 'ok' : 'unavailable' };
   });
   const complete = rows.every(r => r.status !== 'unavailable'), thermalKW = rows.reduce((sum,r) => sum + (r.thermal?.totalKW || 0), 0);
   const demandWithLossKW = complete ? net.demandKW + thermalKW : null, marginKW = complete ? s.generatorKW - demandWithLossKW : null;

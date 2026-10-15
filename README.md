@@ -18,7 +18,7 @@ Non è necessario eseguire `npm install`. Aprire direttamente `index.html` dal F
 
 ## Utilizzo
 
-1. Inserire potenza del generatore, mandata, ΔT e fattore di maggiorazione delle lunghezze idrauliche.
+1. Inserire potenza del generatore, mandata, ΔT e fattore di maggiorazione delle lunghezze per i calcoli idraulici e termici.
 2. Inserire le tratte di sola mandata, con nodo iniziale, nodo finale e lunghezza reale in metri.
 3. Compilare il fabbisogno delle sottostazioni riconosciute automaticamente. I fabbisogni sono sempre utilizzati al 100%.
 4. Scegliere l'ambito delle tratte. Inizialmente i limiti sono 10 mm c.a./m per l'interrato, 30 per la centrale e 20 per il pavimento; sono criteri modificabili, non valori normativi.
@@ -48,7 +48,7 @@ Il metodo completo è descritto in [docs/METODO.md](docs/METODO.md) e nella fine
 - Acqua senza glicole; proprietà interpolate dalle tabelle del workbook. Mandata e ritorno tra 0 e 130 °C.
 - Minimo diametro interno di catalogo con perdita unitaria strettamente inferiore al limite sia in mandata sia in ritorno. Stesso tubo sui due percorsi.
 - Perdite distribuite con Darcy-Weisbach; Colebrook-White nel campo turbolento, legge laminare e interpolazione nel campo di transizione.
-- Dispersioni stimate con U lineare e lunghezze reali, assumendo temperature dell'acqua costanti lungo le tratte. Sono escluse l'interazione termica tra i tubi e l'iterazione tra dispersioni e portate.
+- Dispersioni stimate con U lineare e lunghezze maggiorate dal fattore impostato, assumendo temperature dell'acqua costanti lungo le tratte. Sono escluse l'interazione termica tra i tubi e l'iterazione tra dispersioni e portate.
 - Il margine termico confronta il generatore con la somma dei fabbisogni delle utenze e delle dispersioni. Non è un bilancio energetico finale della rete.
 - Valvole, raccordi, scambiatori, quote e verifiche della pressione non sono modellati. Le perdite del circuito critico sono esclusivamente distribuite e non rappresentano la prevalenza finale della pompa.
 - Una tratta a potenza nulla non viene dimensionata ed è esclusa dalla stima termica. Se un diametro non è disponibile, il totale delle dispersioni e il margine termico restano non disponibili, evitando di presentare una somma parziale come completa.
