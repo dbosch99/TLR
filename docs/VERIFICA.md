@@ -31,4 +31,6 @@ Circuito critico: S3, con 12,817555569 m c.a. di sole perdite distribuite di man
 
 ## Ambito della verifica
 
-Le prove confermano il funzionamento della prima versione locale e dei calcoli descritti in METODO.md. Non è ancora stata eseguita una pubblicazione su GitHub Pages né una prova su dispositivi fisici Windows o iPhone. Non è stata eseguita una verifica idraulica completa con perdite localizzate o una verifica termica con raffreddamento progressivo.
+Le prove confermano il funzionamento della prima versione locale e dei calcoli descritti in METODO.md. Il 15/10/2026 è stato pubblicato il sito https://dbosch99.github.io/TLR/ tramite GitHub Pages, branch main e cartella radice. La pubblicazione è terminata con stato built. Nel sito pubblico sono stati verificati il caricamento dei cataloghi e dei risultati, la selezione della scheda Perdite termiche e il ricalcolo automatico variando la potenza del generatore da 350 a 400 kW e ripristinando 350 kW. Le dispersioni iniziali sono 35,346 kW e il margine termico 105,09 kW, coerenti con la versione locale.
+
+Non sono state eseguite prove su dispositivi fisici Windows o iPhone. Non è stata eseguita una verifica idraulica completa con perdite localizzate o una verifica termica con raffreddamento progressivo.
