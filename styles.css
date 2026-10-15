@@ -837,7 +837,8 @@ tbody tr:last-child td {
   margin-top:4px
 }
 .result-table .limit-input {
-  width:60px;
+  color:#111;
+  width:76px;
   font-size:11px;
   padding:6px;
   min-height:30px
@@ -1370,4 +1371,9 @@ dialog::backdrop {
   .results-heading .heading-with-index {
     max-width:100%
   }
+}
+
+.result-table .limit-input.above-area,.excess-value {
+  color:var(--error);
+  font-weight:700
 }

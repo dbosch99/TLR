@@ -24,18 +24,18 @@ Se il generatore è insufficiente, il programma dimensiona sui fabbisogni comple
 
 ## Proprietà dell'acqua e portate
 
-Il catalogo incorpora la tabella del workbook da 0 a 130 °C, con passo 1 °C. Tra due temperature vengono interpolate linearmente densità, calore specifico e viscosità cinematica. Il calore specifico è assunto alla temperatura media tra mandata e ritorno.
+Il catalogo incorpora la tabella del workbook da 0 a 130 °C, con passo 1 °C. Densità, calore specifico e viscosità cinematica sono letti come con LOOKUP in Excel: si usa la temperatura tabulata immediatamente inferiore o uguale a quella richiesta. Le proprietà e le portate vengono calcolate separatamente alle temperature di mandata e ritorno.
 
 ```text
 T_ritorno = T_mandata − ΔT [°C]
-T_media = (T_mandata + T_ritorno) / 2 [°C]
-m_dot = P_tratta / (c_p(T_media) × ΔT) [kg/s]
+m_dot,M = P_tratta / (c_p(T_mandata) × ΔT) [kg/s]
+m_dot,R = P_tratta / (c_p(T_ritorno) × ΔT) [kg/s]
 Q_dot = m_dot / ρ(T) [m^3/s]
 v = Q_dot / (π × D_i^2 / 4) [m/s]
 Re = v × D_i / ν(T) [-]
 ```
 
-Con P in kW e c_p in kJ/(kg K), la portata massica risulta in kg/s. La portata massica è la stessa in mandata e ritorno; portata volumetrica e velocità possono differire per effetto della densità.
+Con P in kW e c_p in kJ/(kg K), la portata massica risulta in kg/s. Per riprodurre il workbook, si usa il c_p del relativo percorso anche nel calcolo della portata massica. Con c_p variabile questo metodo produce portate massiche leggermente diverse tra mandata e ritorno; è la convenzione di calcolo adottata nel file di riferimento, non una soluzione del bilancio di massa con entalpie integrate.
 
 Non viene svolta una verifica della fase dell'acqua: per temperature superiori a 100 °C la compatibilità con la pressione del circuito deve essere valutata separatamente.
 
@@ -50,17 +50,21 @@ g = 9,81 m/s^2
 j_mm = 1.000 × j [mm c.a./m]
 ```
 
-Per Re <= 2.000 si usa λ = 64/Re. Per Re >= 4.000 si risolve iterativamente Colebrook-White:
+Come nella funzione VBA TLR_Attrito, per 0 < Re < 2.300 si usa λ = 64/Re. Da Re = 2.300 si risolve iterativamente Colebrook-White:
 
 ```text
-1 / sqrt(λ) = −2 × log10[ε / (3,7 × D_i) + 2,51 / (Re × sqrt(λ))]
+1 / sqrt(λ) = −2 × log10[ε / (3,71 × D_i) + 2,50 / (Re × sqrt(λ))]
 ```
 
-Tra Re = 2.000 e Re = 4.000 si interpola linearmente tra il valore laminare all'estremo inferiore e quello di Colebrook all'estremo superiore. La presenza di questo regime viene segnalata.
+Si parte da λ = 0,02, con al massimo 100 iterazioni e arresto per variazione assoluta inferiore a 10^-12, come nella macro. Tra Re = 2.000 e Re = 4.000 viene segnalato il regime di transizione; non viene applicata un'interpolazione aggiuntiva. A portata nulla la perdita è zero.
 
 La rugosità assoluta proviene da Dati!C3 per acciaio e acciaio preisolato e Dati!C4 per gli altri materiali, come nella logica del workbook. Si tratta di un'assunzione ereditata, non di un dato aggiornato del singolo produttore.
 
 Si esaminano i diametri ordinati per sezione interna crescente. Si sceglie il primo per cui max(j_mandata, j_ritorno) è strettamente inferiore al limite. Il limite è espresso in mm c.a./m. Il DN è riportato come etichetta del catalogo; il calcolo usa sempre il diametro interno effettivo.
+
+Se nessun diametro soddisfa il limite richiesto, viene comunque selezionato il diametro interno massimo del catalogo. Il limite applicato viene aumentato al centesimo immediatamente superiore alla perdita massima M/R di quel diametro. L'aumento è evidenziato in rosso e indicato come automatico. Il criterio per ambito e l'eventuale limite manuale richiesto vengono conservati: cambiando tubo o portata, il programma riparte da questi criteri senza mantenere aumenti non più necessari.
+
+I limiti manuali sono rossi quando superano il criterio del relativo ambito e neri quando sono inferiori o uguali. La perdita effettiva è rossa se supera il criterio per ambito o se è stato necessario aumentare il limite. Le grandezze idrauliche e termiche restano calcolabili anche con un limite aumentato; il colore non indica l'idoneità del prodotto a pressione e temperatura.
 
 La velocità non è un criterio vincolante aggiuntivo. Se supera 2 m/s viene segnalata per consentire la valutazione del progettista.
 
@@ -96,13 +100,13 @@ P_necessaria = P_utenze + Q_rete [kW]
 Margine = P_generatore − P_necessaria [kW]
 ```
 
-Una tratta a potenza nulla è esclusa dalla preselezione e dalla stima termica. Se una tratta attiva non può essere dimensionata, i totali termici restano non disponibili. Questa scelta evita una somma parziale presentata come completa.
+Una tratta a potenza nulla è esclusa dalla preselezione e dalla stima termica. Se una tratta presenta un criterio non valido, i totali termici restano non disponibili. Questa scelta evita una somma parziale presentata come completa.
 
 ## Confronto con il workbook
 
-Il sito riprende dati e criteri del workbook, con queste differenze dichiarate: assenza del biodigestore e del glicole, fabbisogni al 100%, proprietà dell'acqua interpolate, c_p alla temperatura media, coefficienti standard 3,7 e 2,51 di Colebrook, verifica di entrambi i percorsi, lunghezze idraulica e termica maggiorate soltanto dal fattore globale. Non è prevista l'identità numerica con tutte le formule del workbook.
+Il calcolo delle portate e del coefficiente di attrito riprende il foglio Perdite idrauliche e la funzione VBA TLR_Attrito del workbook. Il confronto automatico usa 16 righe di riferimento a 242 kW, 85/65 °C, con gli stessi diametri. Restano le semplificazioni concordate: assenza del biodigestore e del glicole, fabbisogni al 100%, scelta automatica del diametro verificando entrambi i percorsi e lunghezze maggiorate dal solo fattore globale. Il sito permette inoltre il superamento esplicito del limite quando il catalogo non offre diametri sufficienti. Per confrontare i risultati occorrono la stessa potenza effettivamente disponibile per la rete, gli stessi tubi, diametri, temperature e lunghezze.
 
 ## Fonti
 
 - Workbook di riferimento: "Dimensionamento rete (invernale) - automatico.xlsm", fogli Nodi rete, Perdite idrauliche, Perdite termiche, Dati e Supporto tubi. Estrazione del 15/10/2026. Impronta SHA-256 in data/catalog.js.
-- [US EPA, EPANET 2.2, algoritmi di calcolo](https://usepa.github.io/EPANET2.2/12_analysis_algorithms.html), riferimento per Darcy-Weisbach, legge laminare e trattamento dei diversi regimi. Il codice del sito usa Colebrook iterativo e l'interpolazione dichiarata sopra; non incorpora il risolutore EPANET.
+- [US EPA, EPANET 2.2, algoritmi di calcolo](https://usepa.github.io/EPANET2.2/12_analysis_algorithms.html), riferimento per Darcy-Weisbach, legge laminare e trattamento dei diversi regimi. Il codice del sito segue la funzione VBA del workbook per costanti e soglia di regime; non incorpora il risolutore EPANET.
